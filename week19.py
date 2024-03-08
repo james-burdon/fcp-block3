@@ -39,8 +39,16 @@ def main():
     parser.add_argument("--save_plot", type=bool,default=False,help="--save_plot takes boolean values only. When present, = True and plot is saved")
     args = parser.parse_args()
     assert len(args.alpha)<6, "Up to 5 values"
-    initial_prey=args.initial[0]
-    initial_predator=args.initial[1]
+    initial=args.initial
+
+
+def solve_eq(initial, t_max, alpha, beta, delta, gamma):
+    '''
+    Solves an SIR model using odeint.
+    '''
+    t = np.linspace(0, t_max)
+    sir = odeint(diff_eq, initial, t, (alpha, beta, delta,gamma))
+    return sir, t
 
 
 
