@@ -41,9 +41,9 @@ def main():
     assert len(args.alpha)<6, "Up to 5 values"
     initial=args.initial
 
-    sir, t = solve_eq(initial, t_max, alpha, beta, gamma, delta)
+    model, t = solve_eq(initial, t_max, alpha, beta, gamma, delta)
     # Plot the results
-    plot_sir(t, sir)
+    plot_eq(t, model)
 
 def solve_eq(initial, t_max, alpha, beta, gamma, delta):
     '''
@@ -57,7 +57,7 @@ def solve_eq(initial, t_max, alpha, beta, gamma, delta):
 
 
 
-if __name__ == '__main__'
+if __name__ == '__main__':
     main()
 # parser.add_argument("-v", "--verbosity", action="count", default=0,
 #                     help="increase output verbosity")
