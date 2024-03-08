@@ -4,16 +4,39 @@ from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
 
+# parser = argparse.ArgumentParser()
+# parser.add_argument("--initial", type=int,
+#                     help="initial population")
+# parser.add_argument("-v", "--verbose", action="store_true",
+#                     help="increase output verbosity")
+# args = parser.parse_args()
+# answer = args.square**2
+# if args.verbose:
+#     print(f"the square of {args.square} equals {answer}")
+# else:
+#     print(answer)
+
+
 parser = argparse.ArgumentParser()
-parser.add_argument("square", type=int,
-                    help="display a square of a given number")
-parser.add_argument("-v", "--verbose", action="store_true",
-                    help="increase output verbosity")
+parser.add_argument('--initial', nargs='+', help="initial populations: 1st value is prey, 2nd value is predators", default=[5,5])
+parser.add_argument('--alpha', nargs='+', help="Up to 5 values for alpha", default=[0.1,0.2,0.3,0.4,0.5])
+parser.add_argument("--beta", type=float,default=0.1,help="value of beta")
+parser.add_argument("--delta", type=float,default=0.1,help="value of delta")
+parser.add_argument("--gamma", type=float,default=0.1,help="value of gamma")
+parser.add_argument("--save_plot", type=bool,default=False,help="--save_plot takes boolean values only. When present, = True and plot is saved")
 args = parser.parse_args()
-answer = args.square**2
-if args.verbose:
-    print(f"the square of {args.square} equals {answer}")
-else:
-    print(answer)
+assert len(args.alpha)<6, "Up to 5 values"
+initial_prey=args.initial[0]
+initial_predator=args.initial[1]
+print(args.save_plot)
 
 
+# parser.add_argument("-v", "--verbosity", action="count", default=0,
+#                     help="increase output verbosity")
+# answer = args.square**2
+# if args.verbosity >= 2:
+#     print(f"the square of {args.square} equals {answer}")
+# elif args.verbosity >= 1:
+#     print(f"{args.square}^2 == {answer}")
+# else:
+#     print(answer)
