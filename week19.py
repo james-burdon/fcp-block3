@@ -16,21 +16,25 @@ import matplotlib.pyplot as plt
 # else:
 #     print(answer)
 
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--initial', nargs='+', help="initial populations: 1st value is prey, 2nd value is predators", default=[5,5])
+    parser.add_argument('--alpha', nargs='+', help="Up to 5 values for alpha", default=[0.1,0.2,0.3,0.4,0.5])
+    parser.add_argument("--beta", type=float,default=0.1,help="value of beta")
+    parser.add_argument("--delta", type=float,default=0.1,help="value of delta")
+    parser.add_argument("--gamma", type=float,default=0.1,help="value of gamma")
+    parser.add_argument("--save_plot", type=bool,default=False,help="--save_plot takes boolean values only. When present, = True and plot is saved")
+    args = parser.parse_args()
+    assert len(args.alpha)<6, "Up to 5 values"
+    initial_prey=args.initial[0]
+    initial_predator=args.initial[1]
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--initial', nargs='+', help="initial populations: 1st value is prey, 2nd value is predators", default=[5,5])
-parser.add_argument('--alpha', nargs='+', help="Up to 5 values for alpha", default=[0.1,0.2,0.3,0.4,0.5])
-parser.add_argument("--beta", type=float,default=0.1,help="value of beta")
-parser.add_argument("--delta", type=float,default=0.1,help="value of delta")
-parser.add_argument("--gamma", type=float,default=0.1,help="value of gamma")
-parser.add_argument("--save_plot", type=bool,default=False,help="--save_plot takes boolean values only. When present, = True and plot is saved")
-args = parser.parse_args()
-assert len(args.alpha)<6, "Up to 5 values"
-initial_prey=args.initial[0]
-initial_predator=args.initial[1]
-print(args.save_plot)
 
 
+
+
+if __name__ == '__main__'
+    main()
 # parser.add_argument("-v", "--verbosity", action="count", default=0,
 #                     help="increase output verbosity")
 # answer = args.square**2
