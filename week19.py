@@ -53,6 +53,14 @@ def solve_eq(initial, t_max, alpha, beta, gamma, delta):
     sir = odeint(diff_eq, initial, t, (alpha, beta, gamma, delta))
     return sir, t
 
+def plot_eq(t, data):
+    fig = plt.figure()
+    ax1 = fig.add_subplot(311)
+    ax1.plot(t, data[:, 0], label='X(t)')
+    ax2 = fig.add_subplot(312)
+    ax2.plot(t, data[:, 1], label='Y(t)')
+    plt.show()
+
 
 
 
