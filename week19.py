@@ -41,13 +41,16 @@ def main():
     assert len(args.alpha)<6, "Up to 5 values"
     initial=args.initial
 
+    sir, t = solve_eq(initial, t_max, alpha, beta, gamma, delta)
+    # Plot the results
+    plot_sir(t, sir)
 
-def solve_eq(initial, t_max, alpha, beta, delta, gamma):
+def solve_eq(initial, t_max, alpha, beta, gamma, delta):
     '''
     Solves an SIR model using odeint.
     '''
     t = np.linspace(0, t_max)
-    sir = odeint(diff_eq, initial, t, (alpha, beta, delta,gamma))
+    sir = odeint(diff_eq, initial, t, (alpha, beta, gamma, delta))
     return sir, t
 
 
