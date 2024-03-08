@@ -16,6 +16,19 @@ import matplotlib.pyplot as plt
 # else:
 #     print(answer)
 
+
+
+
+def diff_eq(initial, t, alpha, beta, gamma, delta):
+
+    dxdt = alpha * initial[0] - beta * initial[0] * initial[1]
+    dydt = delta * initial[0] * initial[1] - gamma * initial[1]
+
+    grad = [dxdt, dydt]
+
+    return grad
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--initial', nargs='+', help="initial populations: 1st value is prey, 2nd value is predators", default=[5,5])
