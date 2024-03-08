@@ -4,23 +4,8 @@ from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
 
-# parser = argparse.ArgumentParser()
-# parser.add_argument("--initial", type=int,
-#                     help="initial population")
-# parser.add_argument("-v", "--verbose", action="store_true",
-#                     help="increase output verbosity")
-# args = parser.parse_args()
-# answer = args.square**2
-# if args.verbose:
-#     print(f"the square of {args.square} equals {answer}")
-# else:
-#     print(answer)
-
-
-
 
 def diff_eq(initial, t, alpha, beta, gamma, delta):
-
     dxdt = alpha * initial[0] - beta * initial[0] * initial[1]
     dydt = delta * initial[0] * initial[1] - gamma * initial[1]
 
@@ -31,48 +16,53 @@ def diff_eq(initial, t, alpha, beta, gamma, delta):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--initial', nargs='+', help="initial populations: 1st value is prey, 2nd value is predators", default=[5,5])
-    parser.add_argument('--alpha', nargs='+', help="Up to 5 values for alpha", default=[0.1,0.2,0.3,0.4,0.5])
-    parser.add_argument("--beta", type=float,default=0.1,help="value of beta")
-    parser.add_argument("--delta", type=float,default=0.1,help="value of delta")
-    parser.add_argument("--gamma", type=float,default=0.1,help="value of gamma")
-    parser.add_argument("--save_plot", type=bool,default=False,help="--save_plot takes boolean values only. When present, = True and plot is saved")
+    parser.add_argument('--initial', nargs='+', help="initial populations: 1st value is prey, 2nd value is predators",
+                        default=[5, 5])
+    parser.add_argument('--alpha', nargs='+', help="Up to 5 values for alpha", default=[0.1, 0.2, 0.3, 0.4, 0.5])
+    parser.add_argument("--beta", type=float, default=0.1, help="value of beta")
+    parser.add_argument("--delta", type=float, default=0.1, help="value of delta")
+    parser.add_argument("--gamma", type=float, default=0.1, help="value of gamma")
+    parser.add_argument("--save_plot", action='store_true', default=False,
+                        help="--save_plot takes boolean values only. When present, must right 'True' 'and plot is saved")
     args = parser.parse_args()
-    assert len(args.alpha)<6, "Up to 5 values"
-    initial=args.initial
+    assert len(args.alpha) < 6, "Up to 5 values"
+    initial = args.initial
+    t_max = 100
 
-    model, t = solve_eq(initial, t_max, alpha, beta, gamma, delta)
-    # Plot the results
-    plot_eq(t, model)
+    plot_eq(args.alpha, args.beta, args.gamma, args.delta, t_max, initial, args.save_plot)
+
 
 def solve_eq(initial, t_max, alpha, beta, gamma, delta):
     '''
     Solves an SIR model using odeint.
     '''
-    t = np.linspace(0, t_max)
+    t = np.linspace(0, t_max, 1000)
     sir = odeint(diff_eq, initial, t, (alpha, beta, gamma, delta))
     return sir, t
 
-def plot_eq(t, data):
-    fig = plt.figure()
-    ax1 = fig.add_subplot(311)
-    ax1.plot(t, data[:, 0], label='X(t)')
-    ax2 = fig.add_subplot(312)
-    ax2.plot(t, data[:, 1], label='Y(t)')
-    plt.show()
 
+def plot_eq(alpha, beta, gamma, delta, t_max, initial, save_plot):
+    # fig = plt.figure()
+    fig, axs = plt.subplots(len(alpha))
+    for i in range(len(alpha)):
+        model, t = solve_eq(initial, t_max, float(alpha[i]), beta, gamma, delta)
+        # Plot the results
+        axs[i].plot(t, model[:, 0], label='prey')
+        axs[i].plot(t, model[:, 1], label='predators')
+        axs[i].set_title(f'alpha = {alpha[i]}')
+        axs[i].legend()
+        axs[i].set_xlabel('Time')
+        axs[i].set_ylabel('Population')
+    plt.suptitle(f'Predator-Prey Populations: b = {beta}, y = {gamma}, d = {delta}\n\n',y=1)
 
+    fig.tight_layout()
+
+    if save_plot == False:
+        plt.show()
+    else:
+        plt.savefig('Predator-Prey Populations')
 
 
 
 if __name__ == '__main__':
     main()
-# parser.add_argument("-v", "--verbosity", action="count", default=0,
-#                     help="increase output verbosity")
-# answer = args.square**2
-# if args.verbosity >= 2:
-#     print(f"the square of {args.square} equals {answer}")
-# elif args.verbosity >= 1:
-#     print(f"{args.square}^2 == {answer}")
-# else:
-#     print(answer)
